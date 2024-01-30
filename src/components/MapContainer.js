@@ -3,6 +3,8 @@ import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import { useState, useEffect } from "react";
 
 const  MapContainer = () => {
+    const [restaurant, setRestaurants] = useState([]);
+
     const [currentLocation, setcurrentLocation] = useState({
         lat: -1.2884,
         lng: 36.8233
@@ -22,6 +24,20 @@ const  MapContainer = () => {
         }
     }, []);
 
+    useEffect(()=> {
+        fetchRestaurants(currentLocation.lat, currentLocation.lng);
+    }, [currentLocation]);
+
+    const fetchRestaurants = async (latitude, longitude) => {
+        try {
+            const response = await fetch(`/api/restaurants?latitude=${latitude}&longitude=${longitude}`);
+            const data = await response.json();
+            setRestaurants(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const mapStyles = {
         height: "100vh",
         width: "100%"
@@ -35,7 +51,17 @@ const  MapContainer = () => {
             zoom={13}
             center={currentLocation}
             >
-
+                {setRestaurants.map(restaurant => (
+                    <Marker
+                        key={restaurant.id}
+                        position={{
+                            lat: restaurant.coordinates.latitude,
+                            lng: restaurant.coordinates.longitude
+                        }}
+                    />
+                
+                ))}
+                
 
             </GoogleMap>
         </LoadScript>
