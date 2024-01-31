@@ -5,23 +5,23 @@ import { useState, useEffect } from "react";
 const  MapContainer = () => {
     const [restaurants, setRestaurants] = useState([]);
     const [currentLocation, setcurrentLocation] = useState({
-        lat: -1.2884,
-        lng: 36.8233
+        lat: 40.7605,
+        lng: -73.9510
     });
 
-    useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    const { latitude, longitude } = position.coords;
-                    setcurrentLocation({lat: latitude, lng:longitude})
-                },
-                () => {
-                    console.log("Error in the geolocation service.");
-                }
-            );
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition(
+    //             position => {
+    //                 const { latitude, longitude } = position.coords;
+    //                 setcurrentLocation({lat: latitude, lng:longitude})
+    //             },
+    //             () => {
+    //                 console.log("Error in the geolocation service.");
+    //             }
+    //         );
+    //     }
+    // }, []);
 
     useEffect(()=> {
         fetchRestaurants(currentLocation.lat, currentLocation.lng);
@@ -44,7 +44,7 @@ const  MapContainer = () => {
         width: "100%"
     };
 
-    console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
+    console.log(restaurants)
 
     return (
         <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>

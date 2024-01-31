@@ -1,8 +1,10 @@
-const express = require('express')
-const { findRestaurant } = require('../controllers/restaurantController');
+const express = require('express');
 const router = express.Router();
 
-router.get('/restaurants', findRestaurant);
+const { findRestaurants } = require('../controllers/restaurantController');
+
+router.get('/api/restaurants', findRestaurants);
 
 module.exports = router;
+
 
