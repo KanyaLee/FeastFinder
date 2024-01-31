@@ -1,10 +1,9 @@
 import React from 'react';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useState, useEffect } from "react";
 
 const  MapContainer = () => {
-    const [restaurant, setRestaurants] = useState([]);
-
+    const [restaurants, setRestaurants] = useState([]);
     const [currentLocation, setcurrentLocation] = useState({
         lat: -1.2884,
         lng: 36.8233
@@ -28,6 +27,8 @@ const  MapContainer = () => {
         fetchRestaurants(currentLocation.lat, currentLocation.lng);
     }, [currentLocation]);
 
+    console.log(currentLocation.lat,currentLocation.lng)
+
     const fetchRestaurants = async (latitude, longitude) => {
         try {
             const response = await fetch(`/api/restaurants?latitude=${latitude}&longitude=${longitude}`);
@@ -42,6 +43,7 @@ const  MapContainer = () => {
         height: "100vh",
         width: "100%"
     };
+
     console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
 
     return (
@@ -51,7 +53,7 @@ const  MapContainer = () => {
             zoom={13}
             center={currentLocation}
             >
-                {setRestaurants.map(restaurant => (
+                {restaurants.map(restaurant => (
                     <Marker
                         key={restaurant.id}
                         position={{

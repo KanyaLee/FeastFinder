@@ -1,13 +1,10 @@
-const express = require('express')
-const router = express.Router()
-const fetch = require('node-fetch')
-const app = express();
+const fetch = require('node-fetch');
 
-// GET /api/restaurant
-router.get('/api/restaurants',async (req,res) => {
+const findRestaurants = async (req,res) => {
     const {latitude, longitude} = req.query;
+    const radius = 3 * 1609.34; // 3 miles in meters
     const yelpApiKey = process.env.YELP_API_KEY;
-    const url = `https://api.yelp.com/v3/businesses/search?latitude=${latitude}&longitude=${longitude}&categories=restaurants`;
+    const url = `https://api.yelp.com/v3/businesses/search?latitude=${latitude}&longitude=${longitude}&radius=${radius}&categories=restaurants`;
     
     try {
         const response = await fetch(url, {
@@ -24,10 +21,6 @@ router.get('/api/restaurants',async (req,res) => {
         console.log(error);
         res.status(500).send('Error fetching data from Yelp')
     }
-} );
-
-// const PORT = process.env.PORT || 3001;
-// app.listen(PORT, () => {
-//     console.log(`Server listening on ${PORT}`);
-// });
+}
+module.exports=findRestaurants; 
 
