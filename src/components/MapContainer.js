@@ -31,8 +31,8 @@ const  MapContainer = () => {
 
     const fetchRestaurants = async (latitude, longitude) => {
         try {
-            // const response = await fetch(`/api/restaurants?latitude=${latitude}&longitude=${longitude}`);
-            const response = await fetch(`http://localhost:3001/api/restaurants?latitude=${latitude}&longitude=${longitude}`);
+            const response = await fetch(`/api/restaurants?latitude=${latitude}&longitude=${longitude}`);
+            // const response = await fetch(`http://localhost:3001/api/restaurants?latitude=${latitude}&longitude=${longitude}`);
             if (!response.ok) {
                 throw new Error(`HTTP error@ status: ${response.status}`);
             }
