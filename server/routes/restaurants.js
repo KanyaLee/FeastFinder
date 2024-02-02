@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { findRestaurants } = require('../controllers/restaurantController');
 
-router.get('/api/restaurants', findRestaurants);
+router.get('/restaurants', findRestaurants);
 
 module.exports = router;
 

@@ -15,8 +15,15 @@ const findRestaurants = async (req,res) => {
                 'Content-Type': 'application/json',
             }
         });
+
+        if (!response.ok) {
+            throw new Error(`Yelp api error@ status: ${response.status}`);
+        }
         const data = await response.json();
-        console.log("Yelp API Response:", data);
+        if (!data.businesses) {
+            console.error("Yelp API response is missing the businesses filed:", data);
+            return res.status(500).send('Invalid data format received from Yelp API');
+        }
         res.send(data.businesses)
         
     } catch (error) {
@@ -24,5 +31,6 @@ const findRestaurants = async (req,res) => {
         res.status(500).send('Error fetching data from Yelp')
     }
 }
+
 module.exports = { findRestaurants }; 
 

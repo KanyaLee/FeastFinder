@@ -31,11 +31,19 @@ const  MapContainer = () => {
 
     const fetchRestaurants = async (latitude, longitude) => {
         try {
-            const response = await fetch(`/api/restaurants?latitude=${latitude}&longitude=${longitude}`);
+            // const response = await fetch(`/api/restaurants?latitude=${latitude}&longitude=${longitude}`);
+            const response = await fetch(`http://localhost:3001/api/restaurants?latitude=${latitude}&longitude=${longitude}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error@ status: ${response.status}`);
+            }
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new Error('Not receiving JSON!');
+            }
             const data = await response.json();
             setRestaurants(data);
         } catch (error) {
-            console.log(error);
+            console.log("Error fetching restaurants:",error);
         }
     };
 
